@@ -4,6 +4,18 @@ exports.checkAccountPayload = (req, res, next) => {
   // DO YOUR MAGIC
   // Note: you can either write "manual" validation logic
   // or use the Yup library (not currently installed)
+  const { name, budget } = req.body;
+  if (!name || !budget) {
+    next({ status: 400, message: "name and budget are required" })
+  } 
+  // else if (name.trim() === name.trim().length < 3 || name.trim() === name.trim() > 100) {
+  //   next({ status: 400, message: "name of account must be between 3 and 100" })
+  // }
+  
+  else {
+    req.name = name.trim();
+    next()
+  }
 }
 
 exports.checkAccountNameUnique = (req, res, next) => {
