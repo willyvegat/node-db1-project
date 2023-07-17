@@ -6,8 +6,8 @@ const router = require('express').Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const data = await Account.getAll();
-    res.json(data);
+    const accounts = await Account.getAll();
+    res.json(accounts);
   } catch (err) {
     next(err);
   }
@@ -15,28 +15,45 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', checkAccountId, async (req, res, next) => {
   try {
-    const data = await Account.getById(req.params.id);
-    res.json(data);
+    const account = await Account.getById(req.params.id);
+    res.json(account);
   } catch (err) {
     next(err);
   }
 })
 
-router.post('/', checkAccountPayload, async (req, res, next) => {
-  try {
-    const data = await Account.create(req.body);
-    res.status(201).json(data);
-  } catch (err) {
-    next(err);
-  }
+router.post(
+  '/', 
+  checkAccountPayload, 
+  checkAccountNameUnique, 
+  async (req, res, next) => {
+    try {
+      const newAccount = await Account.create(req.body);
+      res.status(201).json(newAccount);
+    } catch (err) {
+      next(err);
+    }
 })
 
-router.put('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.put(
+  '/:id', 
+  checkAccountId, 
+  checkAccountPayload, 
+  checkAccountNameUnique, 
+  (req, res, next) => {
+    try {
+      res.json('update account');
+    } catch (err) {
+      next(err);
+    }
 });
 
-router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', checkAccountId, (req, res, next) => {
+  try {
+    res.json('delete account');
+  } catch (err) {
+    next(err);
+  }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
