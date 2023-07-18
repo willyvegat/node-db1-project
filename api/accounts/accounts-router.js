@@ -1,8 +1,8 @@
 const express = require('express');
-const Account = require('./accounts-model');
-const { checkAccountId, checkAccountNameUnique, checkAccountPayload } = require('./accounts-middleware');
 
 const router = require('express').Router()
+const Account = require('./accounts-model');
+const { checkAccountId, checkAccountNameUnique, checkAccountPayload } = require('./accounts-middleware');
 
 router.get('/', async (req, res, next) => {
   try {
