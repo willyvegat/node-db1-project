@@ -29,7 +29,10 @@ router.post(
   checkAccountNameUnique, 
   async (req, res, next) => {
     try {
-      const newAccount = await Account.create(req.body);
+      const newAccount = await Account.create({ 
+        name: req.body.name.trim(),
+        budget: req.body.budget
+      });
       res.status(201).json(newAccount);
     } catch (err) {
       next(err);
@@ -41,9 +44,11 @@ router.put(
   checkAccountId, 
   checkAccountPayload, 
   checkAccountNameUnique, 
-  (req, res, next) => {
+  async (req, res, next) => {
+    const updatedAccount = await Account.updateById(req.params.id, req.body)
+    // res.json(updatedAccount);
     try {
-      res.json('update account');
+      res.json(updatedAccount);
     } catch (err) {
       next(err);
     }

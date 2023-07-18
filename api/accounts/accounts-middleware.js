@@ -16,8 +16,7 @@ exports.checkAccountPayload = (req, res, next) => {
 
   if (error.message) {
     next(error);
-  }
-  else {
+  } else {
     next();
   }
 }
@@ -31,6 +30,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
       if (existingName) {
         next({ status: 400, message: "that name is taken" })
       } else {
+          // req.body.name.trim();
           next()
       }
   } catch (err) {
